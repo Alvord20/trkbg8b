@@ -496,3 +496,5 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 audio.volume = 0.2; // 0.0 (mute) sampai 1.0 (full)
+
+// hp

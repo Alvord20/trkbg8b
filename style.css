@@ -580,3 +580,68 @@ body {
 /* Media Quaries */
 
 /* HP */
+/* Media Quaries Tambahan untuk HP */
+@media (max-width: 768px) {
+  /* Music Controls (Penyesuaian agar tombol musik tidak memanjang) */
+  .music-controls {
+    flex-direction: row; /* Ubah kembali menjadi horizontal (default) */
+    flex-wrap: wrap;
+    justify-content: center; /* Center di mobile */
+    gap: 10px; /* Tambahkan jarak */
+  }
+
+  .music-controls p {
+    /* Tambahkan style agar teks "Music Controls" juga center di mobile */
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+
+  .music-controls a {
+    position: static;
+    width: 100%; /* Tombol Navigasi Top-Right (link) tetap memanjang */
+    text-align: center;
+    margin-top: 10px; /* Beri jarak dari tombol di atasnya */
+  }
+
+  .music-controls .nav-top-right {
+    width: 100%; /* Tombol navigasi tetap memanjang */
+    justify-content: center;
+  }
+
+  /* Tombol Play/Pause (Override agar tidak memanjang) */
+  #btn_music {
+    width: auto; /* KEMBALIKAN lebar ke ukuran konten */
+    flex-grow: 0; /* Pastikan tidak memanjang */
+  }
+
+  .music-controls button {
+    /* Biarkan tombol lain (jika ada) di .music-controls tetap fleksibel */
+    flex: 0 0 auto;
+  }
+
+  /* ... (CSS lainnya dipertahankan) ... */
+}
+
+/* test */
+.photo-card {
+  flex: 0 0 200px;
+  height: 260px;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  margin-top: 60px;
+  animation: fadeInUp 0.6s ease forwards;
+}

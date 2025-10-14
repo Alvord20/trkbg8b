@@ -175,6 +175,72 @@
         display: block;
         opacity: 1;
       }
+
+      /* untuk hp start */
+
+      /* ... (Bagian CSS awal yang tidak berubah) ... */
+
+      /* ==========================================================
+    Tambahan & Modifikasi: Mobile Responsiveness
+    ========================================================== */
+
+      /* 1. Pengaturan Padding dan Header di Mobile */
+      @media (max-width: 768px) {
+        /* Header & Section Padding */
+        header {
+          padding: 50px 0;
+        }
+        header h1 {
+          font-size: 30px; /* Perkecil font header */
+        }
+        section {
+          padding: 40px 20px; /* Perkecil padding section */
+        }
+        section h2 {
+          font-size: 1.8em; /* Perkecil font sub-header */
+        }
+
+        /* 2. Pengaturan Grid di Mobile */
+        .gallery-grid {
+          /* Ubah grid untuk mobile: Cukup 2 kolom yang sama besar */
+          grid-template-columns: repeat(2, 1fr);
+          grid-auto-rows: 150px; /* Perkecil tinggi baris default */
+          gap: 10px; /* Perkecil jarak antar grid */
+          margin: 20px auto; /* Perkecil margin */
+        }
+
+        /* 3. Aturan Kustom Grid di Mobile (Override) */
+
+        /* Section 1: Gambar besar di awal */
+        #section1 .image-container:first-child {
+          /* Di mobile, gambar besar hanya ambil 2 kolom penuh agar tidak terlalu tinggi */
+          grid-column: span 2;
+          grid-row: span 1;
+          height: auto;
+        }
+
+        /* Section 2: Gambar ke-8 yang besar */
+        #section2 .image-container:nth-child(8) {
+          grid-column: span 1; /* Batasi agar hanya mengambil 1 kolom di mobile */
+        }
+
+        /* Section 3: Gambar besar tunggal */
+        #section3 .image-container:first-child {
+          grid-column: 1 / -1; /* Tetap ambil semua kolom */
+          grid-auto-rows: 200px; /* Perkecil tinggi gambar besar */
+          height: 200px !important;
+        }
+
+        /* Tombol Scroll */
+        .scroll-btn {
+          right: 15px;
+          bottom: 15px;
+          padding: 10px 20px;
+          font-size: 0.9em;
+        }
+      }
+
+      /* untuk hp start */
     </style>
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
