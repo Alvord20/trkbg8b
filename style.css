@@ -1,0 +1,582 @@
+/* Reset dan Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(-45deg, #3b0270, #4083a7, #a354bd, #b6610d);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Container Utama dengan Glass Effect yang Diperbaiki */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  height: 80vh;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(25px);
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+/* Header dengan Glass Effect */
+/* Styling header dasar */
+.header {
+  text-align: center;
+  margin: 10px;
+}
+
+.header h1 {
+  font-size: 3rem;
+  color: #ffffff;
+  font-weight: bold;
+  margin: 0; /* Hilangkan margin default */
+  letter-spacing: normal; /* Reset letter-spacing supaya gak renggang */
+  word-spacing: normal; /* Reset word-spacing untuk kata */
+}
+/* Span untuk setiap huruf (stagger) - TANPA margin ekstra */
+.header h1 span {
+  display: inline; /* Ganti ke inline (bukan inline-block) biar mengalir natural seperti teks biasa */
+  opacity: 0; /* Awal hidden */
+  transform: translateY(20px); /* Slide up dari bawah */
+  margin: 0; /* HAPUS margin-right - ini penyebab utama renggang */
+  padding: 0; /* Pastikan gak ada padding */
+  transition: all 0.3s ease; /* Smooth transisi tambahan */
+}
+
+/* Kelas untuk start fade-in (ditambah via JS) */
+.header h1.fade-in span {
+  animation: fadeInUp 0.6s ease-out forwards; /* Durasi 0.6s per huruf */
+}
+
+/* Kelas untuk fade-out (hilang bertahap, via JS) */
+.header h1.fade-out span {
+  animation: fadeOutDown 0.4s ease-in forwards; /* Lebih cepat untuk out */
+}
+
+/* Animasi fade-in + slide-up */
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animasi fade-out + slide-down (untuk reset loop) */
+@keyframes fadeOutDown {
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+/* Pause/Complete state (full visible, no animasi) */
+.header h1.complete span {
+  opacity: 1;
+  transform: translateY(0);
+  animation: none;
+}
+
+/* Responsif untuk mobile */
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .header h1 span {
+    margin-right: 1px; /* Space lebih kecil di mobile */
+  }
+}
+
+/* Carousel Container */
+.carousel-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  margin-bottom: 15px;
+  touch-action: pan-y; /* Untuk swipe horizontal */
+}
+
+/* Track untuk Gambar Horizontal */
+.carousel-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  gap: 15px;
+  padding: 15px;
+  will-change: transform; /* Optimasi performance */
+}
+
+/* Individual Photo Card dengan Glass Effect yang Diperbaiki */
+.photo-card {
+  flex: 0 0 200px;
+  height: 260px;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.photo-card:nth-child(even) {
+  animation-delay: 0.1s;
+}
+
+.photo-card:nth-child(3n) {
+  animation-delay: 0.2s;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.photo-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+}
+
+.photo-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.25);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px 20px 0 0;
+  transition: transform 0.3s ease;
+}
+
+.photo-card:hover img {
+  transform: scale(1.05);
+}
+
+.photo-card .name {
+  color: white;
+  font-size: 1em;
+  font-weight: 500;
+  margin-top: 5px;
+  text-align: center;
+  padding: 0 8px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+/* Navigation Buttons dengan Ripple Effect */
+.nav-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.nav-btn {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: white;
+  border-radius: 50px;
+  padding: 12px 24px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: all 0.3s ease;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-btn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.nav-btn:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
+
+/* Carousel Dots */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+/* Modal untuk Deskripsi dengan Glass Effect yang Diperbaiki */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(25px);
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  width: 85%;
+  max-width: 550px;
+  padding: 35px;
+  color: white;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal h2 {
+  margin-bottom: 15px;
+  font-size: 2em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.modal p {
+  font-size: 1.2em;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Social Section */
+.social-section {
+  margin: 20px 0;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.social-section h3 {
+  margin-bottom: 15px;
+  font-size: 1.3em;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.social-icon {
+  width: 45px;
+  height: 45px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.social-icon:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal Actions */
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.share-btn,
+.close-btn {
+  border: none;
+  border-radius: 50px;
+  padding: 12px 24px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.share-btn {
+  background: rgba(52, 152, 219, 0.8);
+  color: white;
+}
+
+.share-btn:hover {
+  background: rgba(52, 152, 219, 1);
+  transform: scale(1.05);
+}
+
+.close-btn {
+  background: rgba(231, 76, 60, 0.8);
+  color: white;
+}
+
+.close-btn:hover {
+  background: rgba(231, 76, 60, 1);
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .photo-card {
+    flex: 0 0 160px;
+    height: 220px;
+  }
+  .container {
+    width: 95%;
+    height: 95vh;
+    padding: 15px;
+  }
+  .nav-buttons {
+    flex-direction: column;
+  }
+  .social-icons {
+    gap: 10px;
+  }
+  .social-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1em;
+  }
+}
+
+/* Music */
+/* Styling button utama (#btn_music) */
+#btn_music {
+  background-color: #007bff; /* Biru untuk "Play" default */
+  color: white;
+  border: none;
+  padding: 12px 24px; /* Padding inside button */
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 25px; /* Bentuk pill rounded */
+  cursor: pointer; /* Pointer on hover */
+  transition: all 0.3s ease; /* Smooth animasi */
+  outline: none; /* Hilangkan outline browser */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow halus */
+}
+
+/* Hover effect untuk button */
+#btn_music:hover {
+  background-color: #0056b3; /* Biru lebih gelap */
+  transform: translateY(-2px); /* Angkat sedikit */
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Shadow lebih besar */
+}
+
+/* Active effect saat diklik */
+#btn_music:active {
+  transform: translateY(0); /* Kembali ke posisi */
+}
+
+/* Saat button dalam mode "Pause" (ubah warna via JS class) */
+#btn_music.pause {
+  background-color: #dc3545; /* Merah untuk "Pause" */
+}
+
+#btn_music.pause:hover {
+  background-color: #c82333; /* Merah lebih gelap */
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3); /* Shadow merah */
+}
+
+/* Responsif untuk mobile (lebar <480px) */
+@media (max-width: 480px) {
+  #btn_music {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+/* page2 */
+/* Styling untuk membuat tombol sejajar */
+.music-controls {
+  display: flex; /* Gunakan flexbox untuk sejajar */
+  align-items: center; /* Vertikal center */
+  gap: 10px; /* Jarak antara tombol */
+  margin-bottom: 20px; /* Jarak dari elemen berikutnya */
+}
+
+.music-controls a {
+  position: absolute;
+  right: 30px;
+}
+
+.music-controls p {
+  font-weight: bold;
+  align-items: center;
+}
+
+.music-controls button,
+.music-controls .nav-top-right {
+  padding: 10px 15px; /* Ukuran serupa untuk kedua tombol */
+  border: none;
+  border-radius: 20px; /* Bentuk rounded */
+  background-color: rgba(255, 255, 255, 0.2); /* Efek transparan */
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  text-decoration: none; /* Untuk link */
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.music-controls .nav-top-right {
+  display: inline-flex; /* Pastikan sejajar */
+  align-items: right;
+  gap: 5px; /* Jarak antara ikon dan teks */
+}
+
+.music-controls button:hover,
+.music-controls .nav-top-right:hover {
+  background-color: rgba(255, 255, 255, 0.3); /* Efek hover */
+}
+
+/* Responsif: Di mobile, tetap sejajar tapi wrap jika perlu */
+@media (max-width: 768px) {
+  .music-controls {
+    flex-direction: row; /* Tetap horizontal, tapi wrap jika space kurang */
+    flex-wrap: wrap;
+    justify-content: center; /* Center di mobile */
+  }
+
+  .music-controls button,
+  .music-controls .nav-top-right {
+    flex: 1 1 100%; /* Ambil space penuh jika wrap */
+    margin: 5px 0;
+  }
+}
+
+/* Media Quaries */
+
+/* HP */

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KELAS TRKBG B</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Font Awesome untuk Ikon Social Media dan Tombol -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="music-controls">
+        <!-- Ubah <div> ini untuk styling sejajar -->
+        <button id="btn_music" onclick="music()">Play</button>
+        <!-- Tombol Baru: Navigasi ke Halaman Lain, sekarang sejajar dengan Play -->
+        <a
+          href="page2.html"
+          class="nav-top-right"
+          aria-label="Pergi ke Halaman Lain"
+        >
+          <p>Selanjutnya</p>
+        </a>
+        <audio id="bgMusic" src="audio/audio.mp3" loop></audio>
+        <!-- Pastikan file MP3 ada -->
+      </div>
+
+      <script>
+        var audioplaying = false; // State awal: false (paused)
+        function music() {
+          var audio = document.getElementById("bgMusic");
+          var button = document.getElementById("btn_music");
+          if (audioplaying) {
+            audio.pause();
+            button.textContent = "Play";
+            audioplaying = false;
+          } else {
+            audio.play();
+            button.textContent = "Pause";
+            audioplaying = true;
+          }
+        }
+      </script>
+      <!-- music end -->
+
+      <div class="header">
+        <h1 id="typing-text">ALUMNI TEKNIK SIPIL 2021</h1>
+      </div>
+      <div class="carousel-container">
+        <div class="carousel-track" id="carouselTrack">
+          <!-- Gambar akan di-generate oleh JS -->
+        </div>
+        <!-- Dots Indicator -->
+        <div class="carousel-dots" id="carouselDots"></div>
+      </div>
+      <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" aria-label="Previous Slide">
+          <i class="fas fa-chevron-left"></i> Previous
+        </button>
+        <button class="nav-btn" id="nextBtn" aria-label="Next Slide">
+          Next <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal untuk Deskripsi -->
+    <div
+      class="modal"
+      id="modal"
+      role="dialog"
+      aria-labelledby="modalName"
+      aria-hidden="true"
+    >
+      <div class="modal-content">
+        <h2 id="modalName"></h2>
+        <p id="modalDesc"></p>
+        <div class="social-section">
+          <h3>Ikuti Social Media</h3>
+          <div class="social-icons" id="socialIcons"></div>
+        </div>
+        <div class="modal-actions">
+          <button class="share-btn" id="shareBtn">Bagikan Profil</button>
+          <button class="close-btn" id="closeBtn">Tutup</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- typing -->
+    <script>
+      window.addEventListener("load", function () {
+        const h1 = document.querySelector(".header h1");
+        if (!h1) {
+          console.error("Header h1 tidak ditemukan!");
+          return;
+        }
+
+        const originalText = h1.textContent.trim();
+        const staggerDelay = 0.05;
+        const fadeInDuration = 0.6;
+        const pauseAfterIn = 2000;
+        const fadeOutDuration = 0.4;
+        const pauseAfterOut = 1000;
+
+        let spans = [];
+
+        function createSpans() {
+          h1.innerHTML = "";
+          spans = [];
+          for (let i = 0; i < originalText.length; i++) {
+            const span = document.createElement("span");
+            span.textContent = originalText[i];
+            span.style.animationDelay = `${i * staggerDelay}s`;
+            h1.appendChild(span);
+            spans.push(span);
+          }
+        }
+
+        function startFadeIn() {
+          h1.classList.remove("fade-out", "complete");
+          h1.classList.add("fade-in");
+
+          const totalInTime =
+            (originalText.length * staggerDelay + fadeInDuration) * 1000;
+          setTimeout(() => {
+            h1.classList.remove("fade-in");
+            h1.classList.add("complete");
+            setTimeout(() => {
+              startFadeOut();
+            }, pauseAfterIn);
+          }, totalInTime);
+        }
+
+        function startFadeOut() {
+          h1.classList.remove("fade-in", "complete");
+          h1.classList.add("fade-out");
+
+          spans.forEach((span, i) => {
+            span.style.animationDelay = `${
+              (spans.length - 1 - i) * staggerDelay
+            }s`;
+          });
+
+          const totalOutTime =
+            (originalText.length * staggerDelay + fadeOutDuration) * 1000;
+          setTimeout(() => {
+            h1.classList.remove("fade-out");
+            setTimeout(() => {
+              startFadeIn();
+            }, pauseAfterOut);
+          }, totalOutTime);
+        }
+
+        createSpans();
+        setTimeout(startFadeIn, 500);
+      });
+    </script>
+
+    <!-- typing -->
+
+    <script src="script.js"></script>
+  </body>
+</html>
