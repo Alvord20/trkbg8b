@@ -180,68 +180,147 @@
 
       /* ... (Bagian CSS awal yang tidak berubah) ... */
 
-      /* ==========================================================
-    Tambahan & Modifikasi: Mobile Responsiveness
-    ========================================================== */
+  /* ==========================================================
+   Tambahan & Modifikasi: Mobile Responsiveness
+   ========================================================== */
 
-      /* 1. Pengaturan Padding dan Header di Mobile */
-      @media (max-width: 768px) {
-        /* Header & Section Padding */
-        header {
-          padding: 50px 0;
-        }
-        header h1 {
-          font-size: 30px; /* Perkecil font header */
-        }
-        section {
-          padding: 40px 20px; /* Perkecil padding section */
-        }
-        section h2 {
-          font-size: 1.8em; /* Perkecil font sub-header */
-        }
+/* Media Query untuk Tablet dan HP (768px ke bawah) */
+@media (max-width: 768px) {
+  /* 1. Pengaturan Padding dan Header di Mobile */
+  header {
+    padding: 50px 0;
+  }
+  header h1 {
+    font-size: 30px; /* Perkecil font header */
+  }
+  section {
+    padding: 40px 20px; /* Perkecil padding section */
+  }
+  section h2 {
+    font-size: 1.8em; /* Perkecil font sub-header */
+  }
 
-        /* 2. Pengaturan Grid di Mobile */
-        .gallery-grid {
-          /* Ubah grid untuk mobile: Cukup 2 kolom yang sama besar */
-          grid-template-columns: repeat(2, 1fr);
-          grid-auto-rows: 150px; /* Perkecil tinggi baris default */
-          gap: 10px; /* Perkecil jarak antar grid */
-          margin: 20px auto; /* Perkecil margin */
-        }
+  /* 2. Pengaturan Grid di Mobile */
+  .gallery-grid {
+    /* Ubah grid untuk mobile: Cukup 2 kolom yang sama besar */
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 150px; /* Perkecil tinggi baris default */
+    gap: 10px; /* Perkecil jarak antar grid */
+    margin: 20px auto; /* Perkecil margin */
+  }
 
-        /* 3. Aturan Kustom Grid di Mobile (Override) */
+  /* 3. Aturan Kustom Grid di Mobile (Override) */
+  /* Section 1: Gambar besar di awal */
+  #section1 .image-container:first-child {
+    /* Di mobile, gambar besar hanya ambil 2 kolom penuh agar tidak terlalu tinggi */
+    grid-column: span 2;
+    grid-row: span 1;
+    height: auto;
+  }
 
-        /* Section 1: Gambar besar di awal */
-        #section1 .image-container:first-child {
-          /* Di mobile, gambar besar hanya ambil 2 kolom penuh agar tidak terlalu tinggi */
-          grid-column: span 2;
-          grid-row: span 1;
-          height: auto;
-        }
+  /* Section 2: Gambar ke-8 yang besar */
+  #section2 .image-container:nth-child(8) {
+    grid-column: span 1; /* Batasi agar hanya mengambil 1 kolom di mobile */
+  }
 
-        /* Section 2: Gambar ke-8 yang besar */
-        #section2 .image-container:nth-child(8) {
-          grid-column: span 1; /* Batasi agar hanya mengambil 1 kolom di mobile */
-        }
+  /* Section 3: Gambar besar tunggal */
+  #section3 .image-container:first-child {
+    grid-column: 1 / -1; /* Tetap ambil semua kolom */
+    grid-auto-rows: 200px; /* Perkecil tinggi gambar besar */
+    height: 200px !important;
+  }
 
-        /* Section 3: Gambar besar tunggal */
-        #section3 .image-container:first-child {
-          grid-column: 1 / -1; /* Tetap ambil semua kolom */
-          grid-auto-rows: 200px; /* Perkecil tinggi gambar besar */
-          height: 200px !important;
-        }
+  /* Section 4: YUDISIUM */
+  #section4 .gallery-grid {
+    /* Grid tetap 2 kolom, tapi sesuaikan tinggi */
+    grid-auto-rows: 150px;
+    gap: 10px;
+  }
+  /* Video di Section 4 */
+  #section4 .image-container:nth-child(4) {
+    /* Override style inline: Buat video responsif */
+    grid-column: span 2; /* Ambil 2 kolom penuh di mobile */
+    width: 100% !important; /* Override width fixed */
+    height: auto !important; /* Override height fixed, biarkan otomatis */
+  }
+  #section4 video {
+    width: 100%;
+    height: auto; /* Pastikan video menyesuaikan ukuran container */
+    max-height: 300px; /* Batasi tinggi maksimal agar tidak terlalu besar di mobile */
+  }
+  /* Paragraf di Section 4 */
+  #section4 p {
+    margin-top: 150px; /* Kurangi margin-top dari 250px agar tidak terlalu besar di mobile */
+    font-size: 1em; /* Sesuaikan font jika perlu */
+  }
 
-        /* Tombol Scroll */
-        .scroll-btn {
-          right: 15px;
-          bottom: 15px;
-          padding: 10px 20px;
-          font-size: 0.9em;
-        }
-      }
+  /* Section 5: END */
+  #section5 .gallery-grid {
+    grid-auto-rows: 250px; /* Tetap, tapi sesuaikan jika perlu */
+  }
+  /* Video besar di Section 5 */
+  #section5 .image-container:first-child {
+    grid-column: 1 / -1;
+    height: 300px !important; /* Kurangi dari 500px untuk mobile */
+  }
+  #section5 video {
+    width: 100%;
+    height: 100%; /* Sesuaikan dengan container */
+  }
 
-      /* untuk hp start */
-    </style>
+  /* Tombol Scroll */
+  .scroll-btn {
+    right: 15px;
+    bottom: 15px;
+    padding: 10px 20px;
+    font-size: 0.9em;
+  }
+}
+
+/* Media Query Tambahan untuk HP Kecil (480px ke bawah) */
+@media (max-width: 480px) {
+  /* Section 4: YUDISIUM */
+  #section4 .gallery-grid {
+    /* Ubah ke 1 kolom untuk layar kecil */
+    grid-template-columns: 1fr;
+    grid-auto-rows: 120px;
+    gap: 8px;
+  }
+  /* Video di Section 4 */
+  #section4 .image-container:nth-child(4) {
+    grid-column: span 1; /* 1 kolom saja */
+    width: 100% !important;
+    height: auto !important;
+  }
+  #section4 video {
+    width: 100%;
+    height: 100%;
+    max-height: 200px; /* Lebih kecil untuk HP kecil */
+  }
+  /* Paragraf di Section 4 */
+  #section4 p {
+    margin-top: 30px; /* Lebih kecil lagi */
+    font-size: 0.9em;
+  }
+
+  /* Section 5: END */
+  #section5 .gallery-grid {
+    grid-template-columns: 1fr; /* 1 kolom */
+    grid-auto-rows: 200px;
+  }
+  /* Video besar di Section 5 */
+  #section5 .image-container:first-child {
+    grid-column: 1 / -1;
+    height: 200px !important; /* Lebih kecil untuk HP kecil */
+  }
+  #section5 video {
+    width: 100%;
+    height: 100%;
+  }
+}
+  /* untuk hp end */
+
+  </style>
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
       rel="stylesheet"
@@ -366,7 +445,7 @@
           ></video>
         </div>
       </div>
-      <p style="margin-top: 250px">~SELAMAT UNTUK SEMUA SUKSES SELALU~</p>
+      <p style="margin-top: 300px">~SELAMAT UNTUK SEMUA SUKSES SELALU~</p>
     </section>
 
 
